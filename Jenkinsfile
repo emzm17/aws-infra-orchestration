@@ -4,6 +4,9 @@ pipeline {
   parameters {
     string(name: 'TARGET_IP', description: 'Target IP for Ansible')
   }
+  environment {
+    ANSIBLE_HOST_KEY_CHECKING = 'False'
+  }
 
   stages {
     stage('Prepare Inventory Directory') {
