@@ -9,7 +9,7 @@ pipeline {
     stage('Prepare Inventory Directory') {
       steps {
         script {
-          def inventoryDir = "/home/ubuntu/ansible"
+          def inventoryDir = "${env.WORKSPACE}/ansible"
           def inventoryFile = "${inventoryDir}/inventory.ini"
 
           // Create directory if not exists
@@ -31,7 +31,7 @@ pipeline {
 
     stage('Run Ansible') {
       steps {
-        sh "ansible-playbook -i /home/ubuntu/ansible/inventory.ini ansible/depends-playbook.yml"
+        sh "ansible-playbook -i ${env.WORKSPACE}/ansible/inventory.ini ansible/depends-playbook.yml"
       }
     }
   }
