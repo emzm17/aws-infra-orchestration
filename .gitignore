@@ -1,5 +1,5 @@
 /terraform/root/.terraform
-/terraform/root/terraform.tfvars
+# /terraform/root/terraform.tfvars
 /terraform/root/.terraform.lock.hcl
 /terraform/root/errored.tfstate
 /terraform/root/backendt.tf
