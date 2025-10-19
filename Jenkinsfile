@@ -34,7 +34,7 @@ pipeline {
 
   stage('Run Ansible') {
   steps {
-    sshagent(['your-ssh-key-id']) {
+    sshagent(['ansible-ssh-key']) {
       sh "ansible-playbook -i ${env.WORKSPACE}/ansible/inventory.ini ${env.WORKSPACE}/ansible/depends-playbook.yaml"
     }
   }
