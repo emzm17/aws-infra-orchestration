@@ -11,23 +11,18 @@ pipeline {
   stages {
     stage('Prepare Inventory Directory') {
       steps {
-        script {
-          def inventoryDir = "${env.WORKSPACE}/ansible"
-          def inventoryFile = "${inventoryDir}/inventory.ini"
+         script {
+            def inventoryDir = "${env.WORKSPACE}/ansible"
+            def inventoryFile = "${inventoryDir}/inventory.ini"
 
-          // Create directory if not exists
-          sh "mkdir -p ${inventoryDir}"
+            // Create directory if not exists
+            sh "mkdir -p ${inventoryDir}"
 
-          // If inventory file does not exist, create with group header
-          if (!fileExists(inventoryFile)) {
-            writeFile file: inventoryFile, text: "[myhosts]\n"
-          }
+            // Overwrite inventory file with group header and current TARGET_IP
+            writeFile file: inventoryFile, text: "[myhosts]\n${params.TARGET_IP}\n"
 
-          // Append the TARGET_IP to the inventory file
-          sh "echo '${params.TARGET_IP}' >> ${inventoryFile}"
-
-          // Print inventory content
-          sh "cat ${inventoryFile}"
+            // Print inventory content
+            sh "cat ${inventoryFile}"
         }
       }
     }
