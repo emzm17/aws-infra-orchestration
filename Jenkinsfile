@@ -34,7 +34,7 @@ pipeline {
 
     stage('Run Ansible') {
       steps {
-        sh "ansible-playbook -i ${env.WORKSPACE}/ansible/inventory.ini  ${env.WORKSPACE}/ansible/depends-playbook.yaml"
+        sh "ansible-playbook -i ${env.WORKSPACE}/ansible/inventory.ini -u ubuntu ${env.WORKSPACE}/ansible/depends-playbook.yaml"
       }
     }
   }
