@@ -1,0 +1,35 @@
+pipeline {
+  agent any
+
+  parameters {
+    choice(name: 'TERRAFORM_ACTION', choices: ['validate', 'apply', 'destroy'], description: 'Choose Terraform action')
+  }
+
+  stages {
+    stage('Terraform Init') {
+      steps {
+        dir("${env.WORKSPACE}/terraform/root") {
+          sh "terraform init"
+        }
+      }
+    }
+
+    stage('Terraform Action') {
+      steps {
+        dir("${env.WORKSPACE}/terraform") {
+          script {
+            if (params.TERRAFORM_ACTION == 'validate') {
+              sh "terraform validate"
+            } else if (params.TERRAFORM_ACTION == 'apply') {
+              sh "terraform apply -auto-approve"
+            } else if (params.TERRAFORM_ACTION == 'destroy') {
+              sh "terraform destroy -auto-approve"
+            } else {
+              error "Unknown Terraform action: ${params.TERRAFORM_ACTION}"
+            }
+          }
+        }
+      }
+    }
+  }
+}
